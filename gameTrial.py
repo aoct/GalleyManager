@@ -11,26 +11,26 @@ import os
 kivy.require ("1.10.1")
 
 
-class ScrollableLabel(ScrollView):
-	def __init__(self, **kwargs):
-		super().__init__(**kwargs)
-		self.layout = GridLayout(cols=1, size_hint_y = None)
-		self.add_widget(self.layout)
+# class ScrollableLabel(ScrollView):
+# 	def __init__(self, **kwargs):
+# 		super().__init__(**kwargs)
+# 		self.layout = GridLayout(cols=1, size_hint_y = None)
+# 		self.add_widget(self.layout)
 
-		self.item_list = Label(size_hint_y=None, markup = True)
-		self.scroll_to_point = Label()
+# 		self.item_list = Label(size_hint_y=None, markup = True)
+# 		self.scroll_to_point = Label()
 
-		self.layout.add_widget(self.item_list)
-		self.layout.add_widget(self.scroll_to_point)
+# 		self.layout.add_widget(self.item_list)
+# 		self.layout.add_widget(self.scroll_to_point)
 
-	def update_list(self,message):
-		self.item_list.text += '\n' + message
+# 	def update_list(self,message):
+# 		self.item_list.text += '\n' + message
 
-		self.layout.height = self.item_list.texture_size[1]+15
-		self.item_list.height = self.item_list.texture_size[1]
-		self.item_list.text_size = (self.item_list.width*0.98, None)
+# 		self.layout.height = self.item_list.texture_size[1]+15
+# 		self.item_list.height = self.item_list.texture_size[1]
+# 		self.item_list.text_size = (self.item_list.width*0.98, None)
 
-		self.scroll_to(self.scroll_to_point)
+# 		self.scroll_to(self.scroll_to_point)
 
 
 class FirstPage(GridLayout):
@@ -44,7 +44,7 @@ class FirstPage(GridLayout):
 				oldItems = '\n'.join(d)
 
 		else:
-			oldItems = []
+			oldItems = "Empty"
 
 
 		self.xxx = TextInput(multiline=False)
@@ -54,7 +54,7 @@ class FirstPage(GridLayout):
 		self.add.bind(on_press=self.add_button)
 		self.add_widget(self.add)
 
-		self.items = Label(text = oldItems)
+		self.items = Label(text=oldItems)
 		self.add_widget(self.items)
 
 	def showList(self):
@@ -87,7 +87,7 @@ class FirstPage(GridLayout):
 		self.xxx.text = ""
 
 		self.showList()
-		self.update_list(variable1)
+		# self.update_list(variable1)
 
 
 class firstApp(App):
