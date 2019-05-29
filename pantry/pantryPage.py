@@ -31,33 +31,47 @@ from kivy.uix.scrollview import ScrollView
 class pantryPage(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.rows = 3
+        self.mainPage()
 
-        self.xxx = TextInput(multiline=False)
-        self.add_widget(self.xxx)
+    def mainPage(self):
+        self.cols = 1
 
-        self.add = Button(text="Add Item")
-        self.add.bind(on_press=self.add_button)
-        self.add_widget(self.add)
+        topBar = GridLayout(cols=2, size_hint = (1., 0.07))
+        topBar.add_widget(Label(text='Pantry', size_hint_x=0.8))
+        self.quitButton = Button(text='X', size_hint_x=0.2)
+        self.quitButton.bind(on_press=quit)
+        topBar.add_widget(self.quitButton)
+        self.add_widget(topBar)
 
-        self.items = Label(text='')
-        self.updateList()
-        self.add_widget(self.items)
+        self.itemsList = Label(text='')
+        self.updateItemsList()
+        self.add_widget(self.itemsList)
 
-    def updateList(self):
+        self.add_widget(Label(text='Add items', size_hint = (1., 0.07)))
+
+        addBox = GridLayout(cols=2, size_hint = (1., 0.07))
+        self.newItem = TextInput(text='', multiline=False)
+        addBox.add_widget(self.newItem)
+
+        self.addButton = Button(text="Add Item", size_hint_x=0.15)
+        self.addButton.bind(on_press=self.addButtonFunc)
+        addBox.add_widget(self.addButton)
+        self.add_widget(addBox)
+
+    def updateItemsList(self):
         if os.path.isfile("data/pantryContent.txt"):
             with open("data/pantryContent.txt", "r") as f:
                 d = f.readlines()
                 oldItems = '\n'.join(d)
         else:
             oldItems = ''
-        self.items.text = oldItems
+        self.itemsList.text = oldItems
 
-    def add_button(self,instance):
-        new_item = self.xxx.text
+    def addButtonFunc(self,instance):
+        new_item = self.newItem.text
 
         with open("data/pantryContent.txt", "a+") as f:
             f.write(new_item+'\n')
 
-        self.xxx.text = ""
-        self.updateList()
+        self.newItem.text = ''
+        self.updateItemsList()
