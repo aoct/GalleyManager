@@ -74,12 +74,19 @@ class pantryPage(GridLayout):
         b.bind(on_release=lambda *kwargs: self.removeItemInList(row, *kwargs))
 
     def removeItemInList(self, row, *kwargs):
-        itemName = row.children[1].text
+        itemName = row.children[1].text[3:-1]
+        print(itemName)
 
         for i in range(len(self.itemsList.children)):
             if row == self.itemsList.children[i]:
                 print('Found at:', i)
         # TODO: Remove item from the memory as well
+        with open("data/pantryContent.txt", "r") as f:
+            lines = f.readlines()
+        with open("data/pantryContent.txt", "w") as f:
+            for line in lines:
+                if line.strip("\n") != itemName:
+                    f.write(line)
 
         self.itemsList.remove_widget(row)
         pass
