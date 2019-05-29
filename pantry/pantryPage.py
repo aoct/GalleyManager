@@ -8,6 +8,8 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 
+from kivy.graphics import Color
+
 
 # class ScrollableLabel(ScrollView):
 # 	def __init__(self, **kwargs):
@@ -45,7 +47,8 @@ class pantryPage(GridLayout):
         topBar.add_widget(self.quitButton)
         self.add_widget(topBar)
 
-        self.itemsList = GridLayout(cols=1, spacing=10, row_force_default=True, row_default_height=40)
+        self.itemsList = GridLayout(cols=1, spacing=10, size_hint_y=None, row_force_default=True, row_default_height=40)
+        self.itemsList.bind(minimum_height=self.itemsList.setter('height'))
         if os.path.isfile("data/pantryContent.txt"):
             with open("data/pantryContent.txt", "r") as f:
                 pantryItems = f.readlines()
