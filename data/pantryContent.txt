@@ -1,13 +1,6 @@
-banana
-egg
-milk
-ciao
-cane
-ciao
-cazzo
-alessio
-Olmo
-prova
-prova1
-prova 2
-prova 4
+Banana
+Egg
+Milk
+Cream cheese
+Butter
+Parmesan
