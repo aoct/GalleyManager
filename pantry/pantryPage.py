@@ -1,5 +1,7 @@
 import os
 
+from kivy.core.window import Window
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
@@ -43,9 +45,16 @@ class pantryPage(GridLayout):
         topBar.add_widget(self.quitButton)
         self.add_widget(topBar)
 
-        self.itemsList = Label(text='')
-        self.updateItemsList()
-        self.add_widget(self.itemsList)
+        self.itemsList = GridLayout(cols=1, spacing=10, row_force_default=True, row_default_height=40)
+        if os.path.isfile("data/pantryContent.txt"):
+            with open("data/pantryContent.txt", "r") as f:
+                pantryItems = f.readlines()
+                for item in pantryItems:
+                    self.itemsList.add_widget(Label(text=item))
+        self.scrollItemList = ScrollView()
+        self.scrollItemList.add_widget(self.itemsList)
+        self.add_widget(self.scrollItemList)
+
 
         self.add_widget(Label(text='Add items', size_hint = (1., 0.07)))
 
@@ -58,20 +67,12 @@ class pantryPage(GridLayout):
         addBox.add_widget(self.addButton)
         self.add_widget(addBox)
 
-    def updateItemsList(self):
-        if os.path.isfile("data/pantryContent.txt"):
-            with open("data/pantryContent.txt", "r") as f:
-                d = f.readlines()
-                oldItems = '\n'.join(d)
-        else:
-            oldItems = ''
-        self.itemsList.text = oldItems
 
     def addButtonFunc(self,instance):
         new_item = self.newItem.text
 
         with open("data/pantryContent.txt", "a+") as f:
             f.write(new_item+'\n')
+        self.itemsList.add_widget(Label(text=new_item))
 
         self.newItem.text = ''
-        self.updateItemsList()
