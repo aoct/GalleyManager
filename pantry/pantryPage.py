@@ -8,29 +8,6 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 
-from kivy.graphics import Color
-
-
-# class ScrollableLabel(ScrollView):
-# 	def __init__(self, **kwargs):
-# 		super().__init__(**kwargs)
-# 		self.layout = GridLayout(cols=1, size_hint_y = None)
-# 		self.add_widget(self.layout)
-
-# 		self.item_list = Label(size_hint_y=None, markup = True)
-# 		self.scroll_to_point = Label()
-
-# 		self.layout.add_widget(self.item_list)
-# 		self.layout.add_widget(self.scroll_to_point)
-
-# 	def update_list(self,message):
-# 		self.item_list.text += '\n' + message
-
-# 		self.layout.height = self.item_list.texture_size[1]+15
-# 		self.item_list.height = self.item_list.texture_size[1]
-# 		self.item_list.text_size = (self.item_list.width*0.98, None)
-
-# 		self.scroll_to(self.scroll_to_point)
 
 class pantryPage(GridLayout):
     def __init__(self, **kwargs):
