@@ -5,7 +5,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from pantry.pantryPage import pantryPage
 from menu.menuPage import menuPage
 from recipe.recipePage import recipePage
-# from MyScreenManager import MyScreenManager
+
 
 kivy.require("1.10.1")
 
