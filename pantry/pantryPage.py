@@ -31,7 +31,7 @@ class pantryPage(GridLayout):
             with open("data/pantryContent.txt", "r") as f:
                 pantryItems = f.readlines()
                 for item in pantryItems:
-                    self.createItemInList(item)
+                    self.createItemInList(item[:-1])
 
         self.scrollItemList = ScrollView()
         self.scrollItemList.add_widget(self.itemsList)
@@ -61,7 +61,7 @@ class pantryPage(GridLayout):
         self.newItem.text = ''
 
     def createItemInList(self, itemName):
-        l = Label(text='   '+itemName, halign='left', size_hint_x=0.8)
+        l = Label(text='   '+itemName, halign='left', valign='center', size_hint_x=0.8)
         l.bind(size=l.setter('text_size'))
 
         b = Button(text='X', size_hint_x=0.2)
@@ -75,12 +75,7 @@ class pantryPage(GridLayout):
 
     def removeItemInList(self, row, *kwargs):
         itemName = row.children[1].text[3:-1]
-        print(itemName)
 
-        for i in range(len(self.itemsList.children)):
-            if row == self.itemsList.children[i]:
-                print('Found at:', i)
-        # TODO: Remove item from the memory as well
         with open("data/pantryContent.txt", "r") as f:
             lines = f.readlines()
         with open("data/pantryContent.txt", "w") as f:
