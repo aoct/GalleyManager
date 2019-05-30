@@ -28,5 +28,4 @@ class GalleyManager(App):
 
 
 if __name__ == "__main__":
-	GalleyManager = GalleyManager()
-	GalleyManager.run()
+	GalleyManager().run()	
