@@ -1,4 +1,6 @@
 data/pantryContent.txt
+.buildozer
+ltmain.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
