@@ -80,7 +80,7 @@ class pantryPage(Screen):
         b.bind(on_release=lambda *kwargs: self.removeItemInList(row, *kwargs))
 
     def removeItemInList(self, row, *kwargs):
-        itemName = row.children[1].text[3:-1]
+        itemName = row.children[1].text[3:]
 
         with open("data/pantryContent.txt", "r") as f:
             lines = f.readlines()
