@@ -10,6 +10,8 @@ from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import ScreenManager, Screen
 
+from pantry.pantryItem import pantryItem
+
 
 class pantryPage(Screen):
     def __init__(self, **kwargs):
@@ -39,10 +41,12 @@ class pantryPage(Screen):
             os.mkdir('data')
 
         if os.path.isfile('data/pantryContent.pickle'):
-            with open('data/pantryContent.pickle', 'rb') as f:
-                pantry = pickle.load(f)
-                for item in pantry.keys():
-                    self.createItemInList(item)
+            pantry = pickle.load(open('data/pantryContent.pickle', 'rb'))
+            if len(pantry.keys()):
+                l = list(pantry.keys())
+                l.sort()
+                for n in l:
+                    self.createItemInList(pantry[n])
 
         self.scrollItemList = ScrollView()
         self.scrollItemList.add_widget(self.itemsList)
@@ -51,11 +55,15 @@ class pantryPage(Screen):
 
         self.masterGrid.add_widget(Label(text='Add items', size_hint = (1., 0.07)))
 
-        addBox = GridLayout(cols=2, size_hint = (1., 0.07))
-        self.newItem = TextInput(text='', multiline=False)
-        addBox.add_widget(self.newItem)
+        addBox = GridLayout(cols=4, size_hint = (1., 0.07))
+        self.newItemName = TextInput(text='', hint_text='(Name)', multiline=False, size_hint_x=0.6)
+        addBox.add_widget(self.newItemName)
+        self.newItemAmount = TextInput(text='', hint_text='(Amount)', multiline=False, size_hint_x=0.12)
+        addBox.add_widget(self.newItemAmount)
+        self.newItemUnits = TextInput(text='', hint_text='(Units)', multiline=False, size_hint_x=0.08)
+        addBox.add_widget(self.newItemUnits)
 
-        self.addButton = Button(text="Add Item", size_hint_x=0.15)
+        self.addButton = Button(text='+', size_hint_x=0.2)
         self.addButton.bind(on_release=self.addButtonFunc)
         addBox.add_widget(self.addButton)
         self.masterGrid.add_widget(addBox)
@@ -63,27 +71,39 @@ class pantryPage(Screen):
         self.add_widget(self.masterGrid)
 
     def addButtonFunc(self,instance):
-        new_item = self.newItem.text.capitalize()
+        name = self.newItemName.text.capitalize()
+        amount = int(self.newItemAmount.text)
+        units = self.newItemUnits.text
 
         pantry = {}
         if os.path.isfile('data/pantryContent.pickle'):
             pantry = pickle.load(open('data/pantryContent.pickle', 'rb'))
-            
-        pantry[new_item] = None
+
+        pantry[name] = pantryItem(name, amount, units)
         pickle.dump(pantry, open('data/pantryContent.pickle', 'wb'))
 
-        self.createItemInList(new_item)
+        self.createItemInList(pantry[name])
 
-        self.newItem.text = ''
+        self.newItemName.text = ''
+        self.newItemAmount.text = ''
+        self.newItemUnits.text = ''
 
-    def createItemInList(self, itemName):
-        l = Label(text='   '+itemName, halign='left', valign='center', size_hint_x=0.8)
-        l.bind(size=l.setter('text_size'))
+
+    def createItemInList(self, item):
+        ln = Label(text='   '+item.name, halign='left', valign='center', size_hint_x=0.6)
+        ln.bind(size=ln.setter('text_size'))
+
+        txt = str(item.amount)
+        if item.units:
+            txt += ' ' + item.units
+        lu = Label(text=txt, halign='right', valign='center', size_hint_x=0.2)
+        lu.bind(size=lu.setter('text_size'))
 
         b = Button(text='X', size_hint_x=0.2)
         # i_row = len(self.itemsList.children)
-        row = GridLayout(cols=2)
-        row.add_widget(l)
+        row = GridLayout(cols=3)
+        row.add_widget(ln)
+        row.add_widget(lu)
         row.add_widget(b)
         self.itemsList.add_widget(row)
 
