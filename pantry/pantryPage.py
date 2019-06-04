@@ -32,8 +32,11 @@ class pantryPage(Screen):
         self.itemsList = GridLayout(cols=1, spacing=10, size_hint_y=None, row_force_default=True, row_default_height=40)
         self.itemsList.bind(minimum_height=self.itemsList.setter('height'))
 
-        if os.path.isfile("data/pantryContent.txt"):
-            with open("data/pantryContent.txt", "r") as f:
+        if not os.path.isdir('data'):
+            os.mkdir('data')
+
+        if os.path.isfile('data/pantryContent.txt'):
+            with open('data/pantryContent.txt', 'r') as f:
                 pantryItems = f.readlines()
                 for item in pantryItems:
                     self.createItemInList(item[:-1])
