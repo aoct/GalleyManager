@@ -16,16 +16,18 @@ class pantryPage(Screen):
         self.mainPage()
 
     def mainPage(self):
-
         self.masterGrid = GridLayout(cols=1, size_hint=(1.,1.))
 
         topBar = GridLayout(cols=3, size_hint = (1., 0.07))
         self.backButton = Button(text='<-', size_hint_x=0.05)
-        self.backButton.bind(on_press=self.backButtonFunc)
+        self.backButton.background_normal = 'imgs/buttons/menu_circle_hamburger.png'
+        self.backButton.background_down = 'imgs/buttons/menu_hamburger.png'
+
+        self.backButton.bind(on_release=self.backButtonFunc)
         topBar.add_widget(self.backButton)
         topBar.add_widget(Label(text='Pantry', size_hint_x=0.90))
         self.quitButton = Button(text='X', size_hint_x=0.05)
-        self.quitButton.bind(on_press=quit)
+        self.quitButton.bind(on_release=quit)
         topBar.add_widget(self.quitButton)
         self.masterGrid.add_widget(topBar)
 
@@ -53,7 +55,7 @@ class pantryPage(Screen):
         addBox.add_widget(self.newItem)
 
         self.addButton = Button(text="Add Item", size_hint_x=0.15)
-        self.addButton.bind(on_press=self.addButtonFunc)
+        self.addButton.bind(on_release=self.addButtonFunc)
         addBox.add_widget(self.addButton)
         self.masterGrid.add_widget(addBox)
 
