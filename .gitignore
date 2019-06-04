@@ -1,4 +1,4 @@
-data/pantryContent.txt
+data/pantryContent.pickle
 .buildozer
 ltmain.sh
 

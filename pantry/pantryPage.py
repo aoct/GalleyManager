@@ -1,4 +1,5 @@
 import os
+import pickle
 
 from kivy.core.window import Window
 
@@ -37,11 +38,11 @@ class pantryPage(Screen):
         if not os.path.isdir('data'):
             os.mkdir('data')
 
-        if os.path.isfile('data/pantryContent.txt'):
-            with open('data/pantryContent.txt', 'r') as f:
-                pantryItems = f.readlines()
-                for item in pantryItems:
-                    self.createItemInList(item[:-1])
+        if os.path.isfile('data/pantryContent.pickle'):
+            with open('data/pantryContent.pickle', 'rb') as f:
+                pantry = pickle.load(f)
+                for item in pantry.keys():
+                    self.createItemInList(item)
 
         self.scrollItemList = ScrollView()
         self.scrollItemList.add_widget(self.itemsList)
@@ -64,8 +65,12 @@ class pantryPage(Screen):
     def addButtonFunc(self,instance):
         new_item = self.newItem.text.capitalize()
 
-        with open("data/pantryContent.txt", "a+") as f:
-            f.write(new_item+'\n')
+        pantry = {}
+        if os.path.isfile('data/pantryContent.pickle'):
+            pantry = pickle.load(open('data/pantryContent.pickle', 'rb'))
+            
+        pantry[new_item] = None
+        pickle.dump(pantry, open('data/pantryContent.pickle', 'wb'))
 
         self.createItemInList(new_item)
 
@@ -87,15 +92,11 @@ class pantryPage(Screen):
     def removeItemInList(self, row, *kwargs):
         itemName = row.children[1].text[3:]
 
-        with open("data/pantryContent.txt", "r") as f:
-            lines = f.readlines()
-        with open("data/pantryContent.txt", "w") as f:
-            for line in lines:
-                if line.strip("\n") != itemName:
-                    f.write(line)
+        pantry = pickle.load(open('data/pantryContent.pickle', 'rb'))
+        pantry.pop(itemName, None)
+        pickle.dump(pantry, open('data/pantryContent.pickle', 'wb'))
 
         self.itemsList.remove_widget(row)
-        pass
 
     def backButtonFunc(self,instance):
         self.manager.current = 'MenuPage'
