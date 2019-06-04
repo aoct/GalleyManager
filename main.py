@@ -13,8 +13,10 @@ kivy.require("1.10.1")
 
 class GalleyManager(App):
 	def build(self):
+		self.icon = 'imgs/AppIcon.png'
+
 		self.screenManager = ScreenManager()
-		
+
 		self.menuPage = menuPage(name='MenuPage')
 		self.screenManager.add_widget(self.menuPage)
 
@@ -28,4 +30,4 @@ class GalleyManager(App):
 
 
 if __name__ == "__main__":
-	GalleyManager().run()	
+	GalleyManager().run()
